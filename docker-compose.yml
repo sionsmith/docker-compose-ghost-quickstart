@@ -19,8 +19,8 @@ services:
     container_name: ghost
     hostname: ghost
     volumes:
-      - $PWD/ghost/volumes/config.production.json:/var/lib/ghost/config.production.json:z #overwrite default settings 
-      - ./ghost/content:/var/lib/ghost/content:z
+      - $PWD/ghost/config.production.json:/var/lib/ghost/config.production.json
+      - ./ghost/content:/var/lib/ghost/content
     expose:
     - "3306"
     environment: # this section can be commented to start in dev mode by default
@@ -30,16 +30,14 @@ services:
       - mysql
 
   mysql:
-    image: mysql:latest
-    container_name: mysql
+    image : mysql:5.7
     volumes:
-       - ./dbdata:/var/lib/mysql:z  # Persist storage
-    expose:
-      - "3306"
-    environment:
-      # Beware of special characters in password that can be interpreted by shell
-      - MYSQL_ROOT_PASSWORD=test12345
-      - MYSQL_DATABASE=ghostdata
-      - MYSQL_USER=ghostusr
-      - MYSQL_PASSWORD=test123456
+      - mysql_storage:/var/lib/mysql
     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: ghostusr
+      MYSQL_PASSWORD: test123456
+      MYSQL_DATABASE: ghostdata
+volumes:
+  mysql_storage:
