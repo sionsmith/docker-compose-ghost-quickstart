@@ -13,7 +13,7 @@ echo "Stopping Ghost Service..."
 docker stop ghost
 
 echo "Backing up Ghost Data Folder..."
-tar -zcvf /home/backup/ghost/ghost-$FULLDATE.tar.gz -C /home/docker-compose-ghost-quickstart/dbdata
+tar -zcvf /home/backup/ghost/ghost-$FULLDATE.tar.gz /home/docker-compose-ghost-quickstart/dbdata
 
 echo "Starting Ghsot Service..."
 docker start ghost
